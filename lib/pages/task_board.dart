@@ -63,35 +63,68 @@ class _TaskBoardState extends State<TaskBoard> {
     db.updateData();
   }
 
+  void reorderData(int oldindex, int newindex) {
+    setState(() {
+      if (newindex > oldindex) {
+        newindex -= 1;
+      }
+      final tasks = db.taskList.removeAt(oldindex);
+      db.taskList.insert(newindex, tasks);
+    });
+  }
+
+  void sorting() {
+    setState(() {
+      db.taskList.sort();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blueGrey,
-      appBar: AppBar(
-        title: const Text(
-          'MATERIAL 3 TO DO LIST',
-          style: TextStyle(
-              color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.black.withOpacity(.3),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => addNewTask(),
-        backgroundColor: Colors.amber,
-        child: const Icon(Icons.add),
-      ),
-      body: ListView.builder(
-          itemCount: db.taskList.length,
-          itemBuilder: (context, index) {
-            final task = db.taskList[index];
-            return ToDoTile(
-              name: task['name'],
-              completed: task['completed'],
-              onChanged: (value) => checkBoxChange(value, index),
-              deleteFn: (context) => deleteTask(index),
-            );
-          }),
+    return Container(
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/images/abstract.jpg'),
+              fit: BoxFit.cover)),
+      child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: const Text(
+              'MATERIAL 3 DRAGGABLE TASKS',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold),
+            ),
+            centerTitle: true,
+            backgroundColor: Colors.black.withOpacity(.5),
+            toolbarHeight: 40,
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () => addNewTask(),
+            backgroundColor: Colors.amber,
+            child: const Icon(Icons.add),
+          ),
+          body: ReorderableListView(
+            // proxyDecorator: proxyDecorator,
+            onReorder: reorderData,
+            children: db.taskList
+                .map(
+                  (task) => Padding(
+                    key: Key("$task"),
+                    padding: const EdgeInsets.all(8.0),
+                    child: ToDoTile(
+                      name: task['name'],
+                      completed: task['completed'],
+                      onChanged: (value) =>
+                          checkBoxChange(value, db.taskList.indexOf(task)),
+                      deleteFn: (context) =>
+                          deleteTask(db.taskList.indexOf(task)),
+                    ),
+                  ),
+                )
+                .toList(),
+          )),
     );
   }
 }

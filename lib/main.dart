@@ -6,7 +6,7 @@ void main() async {
   await Hive.initFlutter();
 
   // open box
-  var box = await Hive.openBox('task_box'); 
+  var box = await Hive.openBox('task_box');
 
   runApp(const MyApp());
 }
@@ -19,7 +19,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.purple, useMaterial3: true),
+      theme: ThemeData(
+          primarySwatch: Colors.purple,
+          useMaterial3: true,
+          shadowColor: Colors.transparent,
+          canvasColor: Colors.transparent),
       home: const TaskBoard(),
     );
   }
