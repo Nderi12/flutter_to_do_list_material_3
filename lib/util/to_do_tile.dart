@@ -9,7 +9,7 @@ class ToDoTile extends StatelessWidget {
   final String name;
   final bool completed;
   Function(bool?)? onChanged;
-  Function(BuildContext?)? deleteFn;
+  Function()? deleteFn;
 
   ToDoTile(
       {super.key,
@@ -34,21 +34,35 @@ class ToDoTile extends StatelessWidget {
                     colors: [Colors.white60, Colors.white10]),
                 borderRadius: BorderRadius.circular(12)),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Checkbox(
-                  value: completed,
-                  onChanged: onChanged,
-                  activeColor: Colors.black,
+                Row(
+                  children: [
+                    Checkbox(
+                      value: completed,
+                      onChanged: onChanged,
+                      activeColor: Colors.black,
+                    ),
+                    Text(
+                      name,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          decoration: completed
+                              ? TextDecoration.lineThrough
+                              : TextDecoration.none),
+                    ),
+                  ],
                 ),
-                Text(
-                  name,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                      decoration: completed
-                          ? TextDecoration.lineThrough
-                          : TextDecoration.none),
-                ),
+                GestureDetector(
+                  onTap: deleteFn,
+                  child: const Icon(
+                    Icons.delete_forever,
+                    size: 28,
+                    color: Colors.amber,
+                  ),
+                )
               ],
             ),
           ),

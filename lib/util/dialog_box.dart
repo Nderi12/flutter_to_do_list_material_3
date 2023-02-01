@@ -10,7 +10,7 @@ class DialogBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.amber.withOpacity(.5),
+      backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       alignment: Alignment.center,
       actions: [
@@ -20,8 +20,7 @@ class DialogBox extends StatelessWidget {
             const Center(
                 child: Text(
               'Add New Task',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold),
             )),
             const SizedBox(height: 10),
             Container(
@@ -38,7 +37,7 @@ class DialogBox extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MyButton(title: 'Save', color: Colors.teal, onPressed: onSave),
+                MyButton(title: 'Save', color: Colors.green, onPressed: onSave),
                 MyButton(
                     title: 'Cancel',
                     color: Colors.red,

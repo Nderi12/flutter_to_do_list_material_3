@@ -20,22 +20,22 @@ class UtilityClass {
       prefixIcon: Icon(
         prefixIcon,
         size: 18,
-        color: Colors.white,
+        color: Colors.black,
       ),
-      iconColor: Colors.white,
+      iconColor: Colors.black,
       labelText: labelText,
-      labelStyle: const TextStyle(color: Colors.white, fontSize: 12),
+      labelStyle: const TextStyle(color: Colors.black, fontSize: 12),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(15.0),
-        borderSide: BorderSide(
-          color: Colors.grey.shade400,
+        borderSide: const BorderSide(
+          color: Colors.black,
         ),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10.0),
         gapPadding: 10,
         borderSide: BorderSide(
-          color: Colors.white.withOpacity(.2),
+          color: Colors.black.withOpacity(.2),
           width: 2.0,
         ),
       ),

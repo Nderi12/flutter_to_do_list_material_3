@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:to_do_app/database/task_database.dart';
 import 'package:to_do_app/util/dialog_box.dart';
 import 'package:to_do_app/util/to_do_tile.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class TaskBoard extends StatefulWidget {
   const TaskBoard({super.key});
@@ -97,7 +98,7 @@ class _TaskBoardState extends State<TaskBoard> {
                   fontWeight: FontWeight.bold),
             ),
             centerTitle: true,
-            backgroundColor: Colors.black.withOpacity(.5),
+            backgroundColor: Colors.black.withOpacity(.4),
             toolbarHeight: 40,
           ),
           floatingActionButton: FloatingActionButton(
@@ -105,26 +106,32 @@ class _TaskBoardState extends State<TaskBoard> {
             backgroundColor: Colors.amber,
             child: const Icon(Icons.add),
           ),
-          body: ReorderableListView(
-            // proxyDecorator: proxyDecorator,
-            onReorder: reorderData,
-            children: db.taskList
-                .map(
-                  (task) => Padding(
-                    key: Key("$task"),
-                    padding: const EdgeInsets.all(8.0),
-                    child: ToDoTile(
-                      name: task['name'],
-                      completed: task['completed'],
-                      onChanged: (value) =>
-                          checkBoxChange(value, db.taskList.indexOf(task)),
-                      deleteFn: (context) =>
-                          deleteTask(db.taskList.indexOf(task)),
-                    ),
-                  ),
+          body: db.taskList.isNotEmpty
+              ? ReorderableListView(
+                  physics: const BouncingScrollPhysics(),
+                  onReorder: reorderData,
+                  children: db.taskList
+                      .map(
+                        (task) => ToDoTile(
+                          key: Key("$task"),
+                          name: task['name'],
+                          completed: task['completed'],
+                          onChanged: (value) =>
+                              checkBoxChange(value, db.taskList.indexOf(task)),
+                          deleteFn: () => deleteTask(db.taskList.indexOf(task)),
+                        ),
+                      )
+                      .toList(),
                 )
-                .toList(),
-          )),
+              : const Center(
+                  child: Text(
+                    'No Tasks in List!',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                )),
     );
   }
 }
